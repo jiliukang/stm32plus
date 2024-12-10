@@ -49,7 +49,7 @@ namespace stm32plus {
 #ifdef WIN32
     };
 #else
-  } __attribute__ ((packed));
+  } /*__attribute__ ((packed))*/;
 #endif
   }
 }
