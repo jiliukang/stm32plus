@@ -46,5 +46,10 @@ namespace stm32plus {
 
       CAN_FilterInit(&CANFilterInitStruct);
 	  }
+
+  	void initialiseFilter(CAN_FilterInitTypeDef & param) {
+	  	CAN_FilterInit(&param);
+
+	  }
   };
 }
