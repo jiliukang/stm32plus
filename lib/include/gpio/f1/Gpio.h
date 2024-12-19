@@ -88,6 +88,8 @@ namespace stm32plus {
 
       static GpioModeType getMode(GPIO_TypeDef *peripheralAddress,uint16_t pin);
       GpioModeType getMode() const;
+
+      void operator =(const uint8_t bitVal) const;
   };
 
 
@@ -350,5 +352,9 @@ namespace stm32plus {
 
   inline Gpio::GpioModeType Gpio::getMode() const {
     return getMode(_peripheralAddress,_selectedPin);
+  }
+
+  inline void Gpio::operator=(const uint8_t bitVal) const {
+    setState(bitVal);
   }
 }
