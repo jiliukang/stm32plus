@@ -7,7 +7,11 @@
 #include "config/stm32plus.h"
 #include "timing/MillisecondTimer.h"
 
+#ifdef USER_THREADX
+#include "tx_api.h"
 
+extern  volatile unsigned long      _tx_thread_system_state;
+#endif
 
 namespace stm32plus {
 
@@ -33,19 +37,37 @@ namespace stm32plus {
   void MillisecondTimer::delay(uint32_t millis) {
 
     uint32_t target;
+#ifdef USER_THREADX
+    target=_tx_time_get()+millis;
+    while(_tx_time_get()<target);
+#else
+      target=_counter+millis;
+      while(_counter<target);
 
-    target=_counter+millis;
-    while(_counter<target);
+#endif
   }
+
+
+#ifdef USER_THREADX
+    uint32_t MillisecondTimer::millis()
+  {
+      if (_tx_thread_system_state == 0)
+      {
+          return ((uint32_t)_tx_time_get());
+      }
+      return 0;
+  }
+#endif
 }
 
-
+#ifdef USER_THREADX
 /**
  * SysTick interrupt handler
  */
 
-extern "C" {
-  void __attribute__ ((interrupt("IRQ"))) SysTick_Handler() {
-    stm32plus::MillisecondTimer::_counter++;
-  }
-}
+// extern "C" {
+//   void __attribute__ ((interrupt("IRQ"))) SysTick_Handler() {
+//     stm32plus::MillisecondTimer::_counter++;
+//   }
+// }
+#endif

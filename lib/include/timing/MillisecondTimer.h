@@ -36,10 +36,12 @@ namespace stm32plus {
    * Get the current value of the systick counter.
    * @return The current value of the counter.
    */
+#ifdef USER_THREADX
 
-  inline uint32_t MillisecondTimer::millis() {
-    return _counter;
-  }
+  // inline uint32_t MillisecondTimer::millis() {
+  //   return _counter;
+  // }
+#endif
 
 
   /**
