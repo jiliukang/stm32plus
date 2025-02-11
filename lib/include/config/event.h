@@ -20,7 +20,7 @@
 #ifdef EXT_SLIST
     #include "ext/slist"
 #else
-    #include "slist"
+    #include "forward_list"
 #endif
 
 // include the event/slot signal classes

@@ -46,7 +46,7 @@ namespace wink {
 #ifdef EXT_SLIST     
       __gnu_cxx::slist<slot_type> _slots;
 #else
-      std::slist<slot_type> _slots;
+      std::forward_list<slot_type> _slots;
 #endif
     public:
 
@@ -55,8 +55,8 @@ namespace wink {
       /// \see bind To bind a slot to a function
 
       void insertSubscriber(const slot_type& slot) {
-
-        if(_slots.size()==0)
+        if(_slots.empty())
+        // if(_slots.size()==0)
           _firstSlot=slot;
 
         _slots.push_front(slot);
@@ -67,27 +67,15 @@ namespace wink {
       /// \see bind To bind a slot to a function
 
       bool removeSubscriber(const slot_type& slot) {
-
-        for(auto it=_slots.begin();it!=_slots.end();it++) {
-          if(*it==slot) {
-            _slots.erase(it);
-            return true;
-          }
-        }
-        return false;
+        return _slots.remove(slot);
       }
 
       /// Emits the events you wish to send to the call-backs
       /// \param args The arguments to emit to the slots connected to the signal
       template <class ...Args>
       void raiseEvent(Args&&... args) const {
-
-        if(_slots.size()==1)
-          _firstSlot(args...);
-        else {
           for(auto it=_slots.begin();it!=_slots.end();it++)
             (*it)(args...);
-        }
       }
   };
 }

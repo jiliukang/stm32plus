@@ -23,16 +23,16 @@ namespace std {
     operator B*() const;
     operator D*();
   };
-
-  template <typename B,typename D>
-  struct is_base_of
-  {
-    template<typename T>
-    static _is_base_of_yes check(D*, T);
-    static _is_base_of_no check(B*,int);
-
-    static const bool value=sizeof(check(_is_base_of_host<B,D>(),int()))==sizeof(_is_base_of_yes);
-  };
+  //
+  // template <typename B,typename D>
+  // struct is_base_of
+  // {
+  //   template<typename T>
+  //   static _is_base_of_yes check(D*, T);
+  //   static _is_base_of_no check(B*,int);
+  //
+  //   static const bool value=sizeof(check(_is_base_of_host<B,D>(),int()))==sizeof(_is_base_of_yes);
+  // };
 
 
   template<class InputIterator, class UnaryPredicate>

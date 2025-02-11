@@ -152,6 +152,7 @@ namespace stm32plus {
 #include <cstring>
 #include <ctime>
 #include <cctype>
+#include "string/StringUtil.h"
 
 // error provider is common to everyone
 
