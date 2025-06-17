@@ -70,6 +70,8 @@ namespace stm32plus {
         MSC_BOT_GET_ENQUIRY_PAGE,
         MSC_BOT_GET_CAPACITY,
 
+          HID_ANJ_CONTROL,
+
         USB_ERROR
       };
 

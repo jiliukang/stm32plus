@@ -162,7 +162,7 @@ namespace stm32plus {
 // include the customisable peripheral traits
 
 #include "config/traits.h"
-
+#include <type_traits>
 
 /**
 @mainpage stm32plus documentation
