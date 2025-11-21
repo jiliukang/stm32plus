@@ -53,7 +53,8 @@ namespace stm32plus {
   {
       if (_tx_thread_system_state == 0)
       {
-          return ((uint32_t)_tx_time_get());
+          // ThreadX Configure SysTick for 100Hz clock,need to be multiplied by 10
+          return ((uint32_t)_tx_time_get()) * 10;
       }
       return 0;
   }

@@ -9,51 +9,56 @@
 
 
 namespace stm32plus {
-
-  /**
+    /**
    * Implementation of BlockDevice for an SD Card accessed over DMA. This class gathers
    * together the required parts to form a coherent read/write SDIO accessor that
    * uses the DMA channels, albeit blocking the CPU until DMA transfer is complete
    */
 
-  class SdioDmaSdCard : public BlockDevice,
-                        public SdCard<SdCardSdioFeature,SdioInterruptFeature>,
-                        public SdioDmaChannel<SdioDmaChannelInterruptFeature,
-                                              SdioDmaReaderFeature<>,
-                                              SdioDmaWriterFeature<> > {
-
+    class SdioDmaSdCard : public BlockDevice,
+                          public SdCard<SdCardSdioFeature, SdioInterruptFeature>,
+                          public SdioDmaChannel<SdioDmaChannelInterruptFeature,
+                              SdioDmaReaderFeature<>,
+                              SdioDmaWriterFeature<> > {
     protected:
-      volatile int _sdioErrorCode;
-      volatile int _dmaErrorCode;
-      volatile bool _dmaFinished;
-      volatile bool _sdioFinished;
+        int _sdioErrorCode;
+        int _dmaErrorCode;
+        bool _dmaFinished;
+        bool _sdioFinished;
 
     public:
-      enum { BLOCK_SIZE = 512 };
+        enum { BLOCK_SIZE = 512 };
 
     public:
-      SdioDmaSdCard(bool autoInitialise=true);
-      virtual ~SdioDmaSdCard() {}
+        SdioDmaSdCard(bool autoInitialise = true);
 
-      bool waitForTransfer() const;
-      uint64_t getCardCapacityInBytes() const;
+        virtual ~SdioDmaSdCard() {
+        }
 
-      // overrides from BlockDevice
+        bool waitForTransfer() const;
 
-      virtual uint32_t getTotalBlocksOnDevice() override;
-      virtual uint32_t getBlockSizeInBytes() override;
+        uint64_t getCardCapacityInBytes() const;
 
-      virtual bool readBlock(void *dest,uint32_t blockIndex) override;
-      virtual bool readBlocks(void *dest,uint32_t blockIndex,uint32_t numBlocks) override;
+        // overrides from BlockDevice
 
-      virtual bool writeBlock(const void *src,uint32_t blockIndex) override;
-      virtual bool writeBlocks(const void *src,uint32_t blockIndex,uint32_t numBlocks) override;
+        virtual uint32_t getTotalBlocksOnDevice() override;
 
-      virtual formatType getFormatType() override;
+        virtual uint32_t getBlockSizeInBytes() override;
 
-      // SDIO event subscription
+        virtual bool readBlock(void *dest, uint32_t blockIndex) override;
 
-      void onSdioEvent(SdioEventType set);
-      void onDmaEvent(DmaEventType det);
-  };
+        virtual bool readBlocks(void *dest, uint32_t blockIndex, uint32_t numBlocks) override;
+
+        virtual bool writeBlock(const void *src, uint32_t blockIndex) override;
+
+        virtual bool writeBlocks(const void *src, uint32_t blockIndex, uint32_t numBlocks) override;
+
+        virtual formatType getFormatType() override;
+
+        // SDIO event subscription
+
+        void onSdioEvent(SdioEventType set);
+
+        void onDmaEvent(DmaEventType det);
+    };
 }
