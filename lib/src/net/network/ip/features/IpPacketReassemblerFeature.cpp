@@ -193,7 +193,8 @@ namespace stm32plus {
           _inFlightPacketCount--;
 
           delete *it;
-          it=_frags.erase(it);
+          std::erase(_frags,*it);
+          // it=_frags.erase(it);
         }
         else
           it++;
@@ -217,7 +218,8 @@ namespace stm32plus {
 
       for(auto it=_frags.begin();it!=_frags.end();it++) {
         if(*it==packetToFree) {
-          _frags.erase(it);
+          std::erase(_frags,*it);
+          // _frags.erase(it);
           break;
         }
       }
@@ -260,7 +262,8 @@ namespace stm32plus {
 
       // check for the maximum fragmented packets
 
-      if(_frags.size()==_params.ip_maxInProgressFragmentedPackets)
+      if(std::distance(_frags.begin(), _frags.end())  ==_params.ip_maxInProgressFragmentedPackets)
+      // if(_frags.size()==_params.ip_maxInProgressFragmentedPackets)
         return errorProvider.set(ErrorProvider::ERROR_PROVIDER_NET_IP_PACKET_REASSEMBLER,E_TOO_MANY_FRAGMENTED_PACKETS);
 
       // create the new entry (expiry time is not set here)

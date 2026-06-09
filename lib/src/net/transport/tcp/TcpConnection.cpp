@@ -268,7 +268,7 @@ namespace stm32plus {
 
       // ACK the FIN so the connection is now half-closed
 
-      _state.rxWindow.receiveNext++;
+      _state.rxWindow.receiveNext += 1;
       _state.sendAck(*_networkUtilityObjects,sillyWindowAvoidance());
 
       // notify
@@ -378,7 +378,7 @@ namespace stm32plus {
 
       // that SYN cost us a sequence number
 
-      _state.txWindow.sendNext++;
+      _state.txWindow.sendNext += 1;
 
       // pull out the state variables from the remote side
 
@@ -472,7 +472,7 @@ namespace stm32plus {
 
       // we're acking the SYN, which costs the sender 1 sequence number
 
-      _state.rxWindow.receiveNext++;
+      _state.rxWindow.receiveNext += 1;
 
       header->initialise(_state.localPort,                          // ports
                          _state.remotePort,
@@ -487,7 +487,7 @@ namespace stm32plus {
 
       // increment our sequence number
 
-      _state.txWindow.sendNext++;
+      _state.txWindow.sendNext += 1;
 
       // ask the IP layer to send the packet
 

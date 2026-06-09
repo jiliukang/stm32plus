@@ -69,7 +69,7 @@ namespace stm32plus {
 
         RtcBase *_rtc;
         RtcSecondInterruptFeature *_rtcInterruptFeature;
-        std::slist<SubscriberInfo> _subscribers;
+        std::forward_list<SubscriberInfo> _subscribers;
         bool _ready;
 
       protected:

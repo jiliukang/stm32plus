@@ -688,7 +688,7 @@ FrameTypeDef ETH_Get_Received_Frame_interrupt(uint8_t receiveBufferCount)
   {
     
     /* Just by security */
-    descriptor_scan_counter++;
+    descriptor_scan_counter += 1;
     
     /* check if first segment in frame */
     if(((DMARxDescToGet->Status & ETH_DMARxDesc_FS) != (uint32_t)RESET)&&
@@ -703,7 +703,7 @@ FrameTypeDef ETH_Get_Received_Frame_interrupt(uint8_t receiveBufferCount)
     else if (((DMARxDescToGet->Status & ETH_DMARxDesc_LS) == (uint32_t)RESET)&&
             ((DMARxDescToGet->Status & ETH_DMARxDesc_FS) == (uint32_t)RESET))
     {
-      (DMA_RX_FRAME_infos->Seg_Count) ++;
+      (DMA_RX_FRAME_infos->Seg_Count) += 1;
       DMARxDescToGet = (ETH_DMADESCTypeDef*) (DMARxDescToGet->Buffer2NextDescAddr);
     }
 
@@ -713,7 +713,7 @@ FrameTypeDef ETH_Get_Received_Frame_interrupt(uint8_t receiveBufferCount)
       /* last segment */
       DMA_RX_FRAME_infos->LS_Rx_Desc = DMARxDescToGet;
       
-      (DMA_RX_FRAME_infos->Seg_Count)++;
+      (DMA_RX_FRAME_infos->Seg_Count) += 1;
         
       /* first segment is last segment */
       if ((DMA_RX_FRAME_infos->Seg_Count)==1)
@@ -887,7 +887,7 @@ uint32_t ETH_CheckFrameReceived(void)
      ((DMARxDescToGet->Status & ETH_DMARxDesc_LS) != (uint32_t)RESET)) 
     {   
       DMA_RX_FRAME_infos->LS_Rx_Desc = DMARxDescToGet;
-      DMA_RX_FRAME_infos->Seg_Count++;
+      DMA_RX_FRAME_infos->Seg_Count +=1 ;
       return 1;
     }
   
@@ -907,7 +907,7 @@ uint32_t ETH_CheckFrameReceived(void)
      ((DMARxDescToGet->Status & ETH_DMARxDesc_FS) == (uint32_t)RESET)&&
      ((DMARxDescToGet->Status & ETH_DMARxDesc_LS) == (uint32_t)RESET))
     {
-      (DMA_RX_FRAME_infos->Seg_Count) ++;
+      (DMA_RX_FRAME_infos->Seg_Count) +=1;
       DMARxDescToGet = (ETH_DMADESCTypeDef*) (DMARxDescToGet->Buffer2NextDescAddr);
     } 
     return 0;
@@ -1459,7 +1459,7 @@ FlagStatus ETH_GetDMAFlagStatus(uint32_t ETH_DMA_FLAG)
 }
 
 /**
-  * @brief  Clears the ETHERNET’s DMA pending flag.
+  * @brief  Clears the ETHERNETï¿½s DMA pending flag.
   * @param  ETH_DMA_FLAG: specifies the flag to clear.
   *   This parameter can be any combination of the following values:
   *     @arg ETH_DMA_FLAG_NIS : Normal interrupt summary flag
@@ -1571,7 +1571,7 @@ ITStatus ETH_GetDMAITStatus(uint32_t ETH_DMA_IT)
 }
 
 /**
-  * @brief  Clears the ETHERNET’s DMA IT pending bit.
+  * @brief  Clears the ETHERNETï¿½s DMA IT pending bit.
   * @param  ETH_DMA_IT: specifies the interrupt pending bit to clear.
   *   This parameter can be any combination of the following values:
   *     @arg ETH_DMA_IT_NIS : Normal interrupt summary 
